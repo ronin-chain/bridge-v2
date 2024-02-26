@@ -8,14 +8,14 @@ import (
 
 	bridgeUtils "github.com/axieinfinity/bridge-v2/utils"
 
-	ethGovernance "github.com/axieinfinity/bridge-contracts/generated_contracts/ethereum/governance"
+	ethGovernance "github.com/axieinfinity/bridge-core/generated_contracts/ethereum/governance"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	roninTrustedOrganization "github.com/axieinfinity/bridge-contracts/generated_contracts/ronin/trusted_organization"
+	roninTrustedOrganization "github.com/axieinfinity/bridge-core/generated_contracts/ronin/trusted_organization"
 
-	"github.com/axieinfinity/bridge-contracts/generated_contracts/ethereum/gateway"
-	gateway2 "github.com/axieinfinity/bridge-contracts/generated_contracts/ronin/gateway"
 	bridgeCore "github.com/axieinfinity/bridge-core"
+	"github.com/axieinfinity/bridge-core/generated_contracts/ethereum/gateway"
+	gateway2 "github.com/axieinfinity/bridge-core/generated_contracts/ronin/gateway"
 	bridgeCoreModels "github.com/axieinfinity/bridge-core/models"
 	bridgeCoreStores "github.com/axieinfinity/bridge-core/stores"
 	"github.com/axieinfinity/bridge-core/utils"

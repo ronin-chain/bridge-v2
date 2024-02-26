@@ -145,7 +145,7 @@ Includes all subscriptions bridge is observing in a listener. Each subscription 
 - `to`: Indicates receiver/contract address that bridge uses as one of conditions to trigger a subscription
 - `type`: There are 2 types, `0` is `transaction event` and `1` is `log's event`
 - `handler`: Define contract and event that we want to listen
-  - `contract`: Contract name. This must be defined on repo [Bridge Contracts](https://github.com/axieinfinity/bridge-contracts/blob/master/main.go#L13-L20)
+  - `contract`: Contract name.
   - `name`: The event name
 - `callbacks`: List all callbacks function when data is decoded. This is a map (pair) where the key is listener's name and value is the function that is called in that listener. For example:
 
@@ -174,7 +174,7 @@ and submit the data to `HelloEth` contract via method `SubmitFromRonin`
     "to": "0xA8D61A5427a778be28Bd9bb5990956b33385c738",
     "type": 1,
     "handler": {
-      "contract": "RoninGateway", // The contract name, it must be defined on [Bridge Contracts](https://github.com/axieinfinity/bridge-contracts/blob/master/main.go#L13-L20) first.
+      "contract": "RoninGateway", // The contract name
       "name": "Welcome" // The event is listening
     },
     "callbacks": {

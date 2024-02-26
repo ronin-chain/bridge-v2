@@ -18,9 +18,9 @@ import (
 	"github.com/axieinfinity/bridge-core/adapters"
 	bridgeCoreStore "github.com/axieinfinity/bridge-core/stores"
 	bridgeCoreUtils "github.com/axieinfinity/bridge-core/utils"
-	migration "github.com/axieinfinity/bridge-migrations"
 	"github.com/axieinfinity/bridge-v2/cmd/utils"
 	"github.com/axieinfinity/bridge-v2/internal/debug"
+	"github.com/axieinfinity/bridge-v2/migration"
 	"github.com/ethereum/go-ethereum/log"
 	"gopkg.in/urfave/cli.v1"
 )

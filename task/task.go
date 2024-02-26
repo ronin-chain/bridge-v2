@@ -9,10 +9,10 @@ import (
 
 	"github.com/axieinfinity/bridge-v2/stats"
 
-	ethGovernance "github.com/axieinfinity/bridge-contracts/generated_contracts/ethereum/governance"
-	roninGovernance "github.com/axieinfinity/bridge-contracts/generated_contracts/ronin/governance"
-	roninValidator "github.com/axieinfinity/bridge-contracts/generated_contracts/ronin/validator"
 	bridgeCore "github.com/axieinfinity/bridge-core"
+	ethGovernance "github.com/axieinfinity/bridge-core/generated_contracts/ethereum/governance"
+	roninGovernance "github.com/axieinfinity/bridge-core/generated_contracts/ronin/governance"
+	roninValidator "github.com/axieinfinity/bridge-core/generated_contracts/ronin/validator"
 	"github.com/axieinfinity/bridge-core/metrics"
 	"github.com/axieinfinity/bridge-core/utils"
 	"github.com/axieinfinity/bridge-v2/models"
