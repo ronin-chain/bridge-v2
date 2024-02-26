@@ -1,6 +1,9 @@
 module github.com/axieinfinity/bridge-v2
 
-replace github.com/ethereum/go-ethereum => github.com/axieinfinity/ronin v1.10.4-0.20240117085004-bf2f0d1787d0
+replace (
+	github.com/axieinfinity/bridge-core => github.com/ronin-chain/bridge-core v0.1.3-0.20240226101641-8d0e69b8f633
+	github.com/ethereum/go-ethereum => github.com/axieinfinity/ronin v1.10.4-0.20240117085004-bf2f0d1787d0
+)
 
 go 1.20
 
@@ -21,19 +24,16 @@ require (
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
-	github.com/axieinfinity/bridge-contracts v0.0.0-20231004085724-072c76e1bf73
 	github.com/axieinfinity/bridge-core v0.1.3-0.20231019083704-13047bb9c3bf
-	github.com/axieinfinity/bridge-migrations v0.0.0-20230405070530-7bb3be2afe72
 	github.com/ethereum/go-ethereum v1.10.26
+	github.com/go-gormigrate/gormigrate/v2 v2.0.2
 	github.com/gorilla/websocket v1.5.0
 	github.com/spf13/viper v1.17.0
-	github.com/stretchr/testify v1.8.4
 	gorm.io/driver/postgres v1.4.5
 )
 
 require (
 	github.com/VictoriaMetrics/fastcache v1.12.0 // indirect
-	github.com/axieinfinity/ronin-kms-client v0.0.0-20220805072849-960e04981b70 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/btcsuite/btcd v0.22.3 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -41,7 +41,6 @@ require (
 	github.com/edsrzf/mmap-go v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gballet/go-libpcsclite v0.0.0-20191108122812-4678299bea08 // indirect
-	github.com/go-gormigrate/gormigrate/v2 v2.0.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
@@ -76,7 +75,6 @@ require (
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/peterh/liner v1.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_golang v1.14.0 // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.37.0 // indirect
@@ -103,11 +101,8 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.3.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230920204549-e6e6cdab5c13 // indirect
-	google.golang.org/grpc v1.58.2 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

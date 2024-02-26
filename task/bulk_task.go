@@ -6,14 +6,14 @@ import (
 	"math/big"
 	"time"
 
-	roninGovernance "github.com/axieinfinity/bridge-contracts/generated_contracts/ronin/governance"
+	roninGovernance "github.com/axieinfinity/bridge-core/generated_contracts/ronin/governance"
 
 	"github.com/axieinfinity/bridge-v2/stores"
 	"github.com/ethereum/go-ethereum/signer/core"
 
-	"github.com/axieinfinity/bridge-contracts/generated_contracts/ethereum/gateway"
-	roninGateway "github.com/axieinfinity/bridge-contracts/generated_contracts/ronin/gateway"
 	bridgeCore "github.com/axieinfinity/bridge-core"
+	"github.com/axieinfinity/bridge-core/generated_contracts/ethereum/gateway"
+	roninGateway "github.com/axieinfinity/bridge-core/generated_contracts/ronin/gateway"
 	"github.com/axieinfinity/bridge-core/metrics"
 	"github.com/axieinfinity/bridge-core/utils"
 	"github.com/axieinfinity/bridge-v2/models"
