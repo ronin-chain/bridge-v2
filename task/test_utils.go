@@ -37,7 +37,6 @@ func newMockConfig(privateKey string, contracts map[string]string) *internal.LsC
 		Secret: &internal.Secret{
 			BridgeOperator: &utils.SignMethodConfig{
 				PlainPrivateKey: privateKey,
-				KmsConfig:       nil,
 			},
 			Relayer: nil,
 		},
