@@ -3,10 +3,13 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_REPOSITORY: axieinfinity/bridge
+  IMAGE_REPOSITORY: ronin-chain/bridge
   DOCKER_FILE: Dockerfile
 jobs:
   push_to_docker_registry:
