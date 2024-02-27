@@ -89,7 +89,7 @@ func NewEthereumListener(ctx context.Context, cfg *bridgeCore.LsConfig, helpers 
 	}
 	ethListener.client = client
 
-	if cfg.Secret.BridgeOperator != nil {
+	if cfg.Secret.BridgeOperator != nil && cfg.Secret.BridgeOperator.PlainPrivateKey != "" {
 		ethListener.bridgeOperatorSign, err = bridgeCoreUtils.NewSignMethod(cfg.Secret.BridgeOperator)
 		if err != nil {
 			log.Error(fmt.Sprintf("[New%sListener] error while getting validator key", cfg.Name), "err", err)
@@ -102,7 +102,7 @@ func NewEthereumListener(ctx context.Context, cfg *bridgeCore.LsConfig, helpers 
 			log.Info(fmt.Sprintf("[%sListener] Operator account", cfg.Name), "address", ethListener.bridgeOperatorSign.GetAddress())
 		}
 	}
-	if cfg.Secret.Voter != nil {
+	if cfg.Secret.Voter != nil && cfg.Secret.Voter.PlainPrivateKey != "" {
 		ethListener.voterSign, err = bridgeCoreUtils.NewSignMethod(cfg.Secret.Voter)
 		if err != nil {
 			log.Error(fmt.Sprintf("[New%sListener] error while getting voter key", cfg.Name), "err", err)
@@ -115,7 +115,7 @@ func NewEthereumListener(ctx context.Context, cfg *bridgeCore.LsConfig, helpers 
 			log.Info(fmt.Sprintf("[%sListener] Voter account", cfg.Name), "address", ethListener.voterSign.GetAddress())
 		}
 	}
-	if cfg.Secret.Relayer != nil {
+	if cfg.Secret.Relayer != nil && cfg.Secret.Relayer.PlainPrivateKey != "" {
 		ethListener.relayerSign, err = bridgeCoreUtils.NewSignMethod(cfg.Secret.Relayer)
 		if err != nil {
 			log.Error(fmt.Sprintf("[New%sListener] error while getting relayer key", cfg.Name), "err", err)
@@ -128,7 +128,7 @@ func NewEthereumListener(ctx context.Context, cfg *bridgeCore.LsConfig, helpers 
 			log.Info(fmt.Sprintf("[%sListener] Relayer account", cfg.Name), "address", ethListener.relayerSign.GetAddress())
 		}
 	}
-	if cfg.Secret.LegacyBridgeOperator != nil {
+	if cfg.Secret.LegacyBridgeOperator != nil && cfg.Secret.LegacyBridgeOperator.PlainPrivateKey != "" {
 		ethListener.legacyBridgeOperatorSign, err = bridgeCoreUtils.NewSignMethod(cfg.Secret.LegacyBridgeOperator)
 		if err != nil {
 			log.Error(fmt.Sprintf("[New%sListener] error while getting legacy bridge operator key", cfg.Name), "err", err)
