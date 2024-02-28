@@ -4,12 +4,12 @@ set -e
 
 echo "Start Migrating Process"
 echo "-----------------------"
-echo "Backup env and docker-compose file"
+echo "Backup env and docker-compose files"
 
 cp .env .env_backup 
 cp docker-compose.yml docker-compose-backup.yml
 
-echo "Finish backup for 2 files"
+echo "Finished backup for 2 files"
 
 # To new docker-compose config in v0.2.8 
 # Following docs here https://docs.roninchain.com/validators/setup/mainnet/run-combined
@@ -39,7 +39,7 @@ echo "Finish backup for 2 files"
 # - LISTENERS__RONIN__STATS__SECRET=${LISTENERS__RONIN__STATS__SECRET}
 
 echo "-------------------"
-echo "Start for replacing Ronin and Etherum Endpoint config"
+echo "Start replacing Ronin and Etherum Endpoint configs"
 sed -i -e 's/RPC_ENDPOINT/LISTENERS__RONIN__RPCURL/g' .env
 sed -i -e 's/BRIDGE_OPERATOR_PRIVATE_KEY/LISTENERS__RONIN__SECRET__BRIDGEOPERATOR__PLAINPRIVATEKEY/g' .env
 sed -i -e 's/ETHEREUM_ENDPOINT/LISTENERS__ETHEREUM__RPCURL/g' .env
@@ -50,7 +50,7 @@ sed -i -e 's/ETHEREUM_RPC/LISTENERS__ETHEREUM__RPCURL/g' docker-compose.yml
 
 echo "-------------------"
 
-echo "Start for replacing DATABASE config"
+echo "Start replacing DATABASE config"
 
 sed -i -e 's/DB_HOST/DATABASE__HOST/g' .env
 sed -i -e 's/DB_NAME/DATABASE__DBNAME/g' .env
@@ -67,7 +67,7 @@ sed -i -e 's/DB_PASSWORD/DATABASE__PASSWORD/g' docker-compose.yml
 echo "-------------------"
 
 
-echo "Start for replacing Ronin Task Process config"
+echo "Start replacing Ronin Task Process config"
 
 sed -i -e 's/RONIN_TASK_INTERVAL/LISTENERS__RONIN__TASKINTERVAL/g' .env
 sed -i -e 's/RONIN_TRANSACTION_CHECK_PERIOD/LISTENERS__RONIN__TRANSACTIONCHECKPERIOD/g' .env
@@ -79,14 +79,14 @@ sed -i -e 's/RONIN_MAX_PROCESSING_TASKS/LISTENERS__RONIN__MAXPROCESSINGTASKS/g' 
 
 echo "-------------------"
 
-echo "Start for replacing Etherum Task Process config"
+echo "Start replacing Etherum Task Process config"
 
 sed -i -e 's/ETHEREUM_GET_LOGS_BATCH_SIZE/LISTENERS__ETHEREUM__GETLOGSBATCHSIZE/g' .env
 sed -i -e 's/ETHEREUM_GET_LOGS_BATCH_SIZE/LISTENERS__ETHEREUM__GETLOGSBATCHSIZE/g' docker-compose.yml
 
 echo "-------------------"
 
-echo "Start for replacing Bridge Stats config"
+echo "Start replacing Bridge Stats config"
 
 sed -i -e 's/BRIDGE_STATS_URL/LISTENERS__RONIN__STATS__HOST/g' .env
 sed -i -e 's/BRIDGE_STATS_NODE_NAME/LISTENERS__RONIN__STATS__NODE/g' .env
@@ -98,4 +98,4 @@ sed -i -e 's/BRIDGE_STATS_NODE_NAME/LISTENERS__RONIN__STATS__NODE/g' docker-comp
 sed -i -e 's/BRIDGE_STATS_SECRET/LISTENERS__RONIN__STATS__SECRET/g' docker-compose.yml
 
 echo "-------------------"
-echo "Happy for new version v0.2.8, please Double check with the final docs, and start bridge."
+echo "Happy for new version v0.2.8, please double check with the final doc, and start bridge."
