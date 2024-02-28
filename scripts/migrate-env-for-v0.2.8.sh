@@ -7,7 +7,7 @@ echo "-----------------------"
 echo "Backup env and docker-compose file"
 
 cp .env .env_backup 
-cp docker-compose.yml docker-compose.yml
+cp docker-compose.yml docker-compose-backup.yml
 
 echo "Finish backup for 2 files"
 
