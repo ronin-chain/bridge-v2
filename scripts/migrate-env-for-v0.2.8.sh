@@ -6,8 +6,10 @@ echo "Start Migrating Process"
 echo "-----------------------"
 echo "Backup env and docker-compose files"
 
-cp .env .env_backup 
-cp docker-compose.yml docker-compose-backup.yml
+now=$(date +"%m_%d_%Y_%M:%S")
+
+cp .env .env_backup_$now
+cp docker-compose.yml docker-compose-backup-$now.yml
 
 echo "Finished backup for 2 files"
 
