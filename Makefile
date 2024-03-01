@@ -18,7 +18,7 @@ abigen:
 	abigen --abi=./contracts/common/RoninValidator.abi --pkg=validator --out=./generated_contracts/ronin/validator/ronin_validator.go
 
 bridge:
-	go install ./cmd/bridge
+	CGO_CFLAGS_ALLOW="-O -D__BLST_PORTABLE__" CGO_CFLAGS="-O -D__BLST_PORTABLE__" go install ./cmd/bridge
 	@echo "Done building."
 	@echo "Run \"bridge\" to launch bridge."
 
