@@ -15,7 +15,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const bridgeVersion = "v0.2.7"
+const bridgeVersion = "v0.2.9"
 
 type NodeInfo struct {
 	Organization  string `json:"organization,omitempty" mapstructure:"organization"`
