@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
+      
 env:
   REGISTRY: ghcr.io
   IMAGE_REPOSITORY: ronin-chain/bridge
