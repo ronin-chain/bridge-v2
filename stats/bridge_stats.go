@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	bridgeCore "github.com/axieinfinity/bridge-core"
@@ -126,6 +127,7 @@ type Service struct {
 	processedBlockCh chan processedBlockMessage
 	quitCh           chan struct{}
 	store            stores.TaskStore
+	isReady          atomic.Bool
 }
 
 func NewService(node, chainId, operator, host, secret string, db *gorm.DB) {
@@ -297,6 +299,8 @@ func (s *Service) report(conn *connWrapper) error {
 func (s *Service) readLoop(conn *connWrapper) {
 	// If the read loop exits, close the connection
 	defer conn.Close()
+	// set isReady to true
+	s.isReady.Store(true)
 	log.Info("[Bridge stats] Start read loop")
 	for {
 		// Exit the function when receiving the quit signal
@@ -348,17 +352,17 @@ func (s *Service) setProcessedBlock(listener string, block uint64) error {
 }
 
 func (s *Service) SendError(listener, err string) {
-	select {
-	case s.errCh <- errorMessage{Listener: listener, Err: err}:
-	default:
-		log.Debug("Stats is not ready to broadcast error")
+	if !s.isReady.Load() {
+		log.Info("Stats is not ready to broadcast error")
+		return
 	}
+	s.errCh <- errorMessage{Listener: listener, Err: err}
 }
 
 func (s *Service) SendProcessedBlock(listener string, block uint64) {
-	select {
-	case s.processedBlockCh <- processedBlockMessage{Listener: listener, ProcessedBlock: block}:
-	default:
-		log.Debug("Stats is not ready to broadcast processed block")
+	if !s.isReady.Load() {
+		log.Info("Stats is not ready to broadcast processed block")
+		return
 	}
+	s.processedBlockCh <- processedBlockMessage{Listener: listener, ProcessedBlock: block}
 }
