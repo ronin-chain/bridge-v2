@@ -57,6 +57,7 @@ type RoninTask struct {
 	processingIdsMap   sync.Map
 	maxProcessingTasks int
 	gasLimitBumpRatio  uint64
+	maxBulkTasks       int
 }
 
 func NewRoninTask(listener bridgeCore.Listener, db *gorm.DB, util utils.Utils) (*RoninTask, error) {
@@ -105,6 +106,9 @@ func NewRoninTask(listener bridgeCore.Listener, db *gorm.DB, util utils.Utils) (
 	}
 	if config.MaxProcessingTasks > 0 {
 		task.maxProcessingTasks = config.MaxProcessingTasks
+	}
+	if config.MaxBulkTasks > 0 {
+		task.maxBulkTasks = config.MaxBulkTasks
 	}
 	return task, nil
 }
@@ -207,6 +211,7 @@ func (r *RoninTask) processPending() error {
 		r.releaseTasksCh,
 		r.util,
 		r.gasLimitBumpRatio,
+		r.maxBulkTasks,
 	)
 	bulkSubmitWithdrawalSignaturesTask := newBulkTask(
 		r.listener,
@@ -220,6 +225,7 @@ func (r *RoninTask) processPending() error {
 		r.releaseTasksCh,
 		r.util,
 		r.gasLimitBumpRatio,
+		r.maxBulkTasks,
 	)
 	ackWithdrewTasks := newBulkTask(
 		r.listener,
@@ -233,6 +239,7 @@ func (r *RoninTask) processPending() error {
 		r.releaseTasksCh,
 		r.util,
 		r.gasLimitBumpRatio,
+		r.maxBulkTasks,
 	)
 
 	singleTasks := make([]Tasker, 0)

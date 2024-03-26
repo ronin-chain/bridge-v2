@@ -10,6 +10,7 @@
       "taskInterval": "3s",
       "transactionCheckPeriod": "5s",
       "gasLimitBumpRatio": 200,
+      "maxBulkTasks": 20,
       "secret": {
         "bridgeOperator": {
           "plainPrivateKey": ""
