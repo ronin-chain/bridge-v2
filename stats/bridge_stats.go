@@ -15,7 +15,8 @@ import (
 	"gorm.io/gorm"
 )
 
-const bridgeVersion = "v0.2.7"
+const bridgeVersion = "v0.2.9"
+const timeRangeCheck = 60 * 60 * 24 * 7 // 1 Week
 
 type NodeInfo struct {
 	Organization  string `json:"organization,omitempty" mapstructure:"organization"`
@@ -268,15 +269,16 @@ func (s *Service) report(conn *connWrapper) error {
 		ProcessedBlock: s.processedBlock,
 	}
 
+	timestamp := time.Now().Unix() - timeRangeCheck // 1 week
 	// count pending/failed tasks from database
-	pending, err := s.store.CountTasks(s.chainId, "pending")
+	pending, err := s.store.CountTasks(s.chainId, "pending", timestamp)
 	if err != nil {
 		log.Error("error while getting pending tasks", "err", err)
 	} else {
 		info.PendingTasks = int(pending)
 	}
 
-	failed, err := s.store.CountTasks(s.chainId, "failed")
+	failed, err := s.store.CountTasks(s.chainId, "failed", timestamp)
 	if err != nil {
 		log.Error("error while getting failed tasks", "err", err)
 	} else {

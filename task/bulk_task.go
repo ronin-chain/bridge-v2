@@ -44,6 +44,7 @@ type bulkTask struct {
 	listener          bridgeCore.Listener
 	releaseTasksCh    chan int
 	gasLimitBumpRatio uint64
+	maxBulkTasks      int
 }
 
 func newBulkTask(
@@ -58,6 +59,7 @@ func newBulkTask(
 	releaseTasksCh chan int,
 	util utils.Utils,
 	gasLimitBumpRatio uint64,
+	maxBulkTasks int,
 ) *bulkTask {
 	return &bulkTask{
 		util:              util,
@@ -71,12 +73,17 @@ func newBulkTask(
 		listener:          listener,
 		releaseTasksCh:    releaseTasksCh,
 		gasLimitBumpRatio: gasLimitBumpRatio,
+		maxBulkTasks:      maxBulkTasks,
 	}
 }
 
 func (r *bulkTask) collectTask(t *models.Task) {
 	if t.Type == r.taskType {
-		r.tasks = append(r.tasks, t)
+		if r.maxBulkTasks != 0 && len(r.tasks) >= r.maxBulkTasks {
+			log.Info("[bulkTask] Bulk task reaches the limit", "type", r.taskType, "num", len(r.tasks))
+		} else {
+			r.tasks = append(r.tasks, t)
+		}
 	}
 }
 
