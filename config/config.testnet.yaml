@@ -53,7 +53,7 @@ listeners:
           Ronin: "ProvideReceiptSignatureAgainCallback"
   ethereum:
     disabled: false
-    chainId: "0x5"
+    chainId: "0xaa36a7"
     rpcUrl: ""
     blockTime: 15
     safeBlockRange: 8
@@ -66,10 +66,10 @@ listeners:
     fromHeight: 12522064
     processWithinBlocks: 198720
     contracts:
-      Gateway: "0x9e359F42cDDc84A386a2Ef1D9Ae06623f3970D1D"
+      Gateway: "0x06855f31df1d3d25ce486cf09db49bda535d2a9e"
     subscriptions:
       DepositRequestedSubscription:
-        to: "0x9e359F42cDDc84A386a2Ef1D9Ae06623f3970D1D"
+        to: "0x06855f31df1d3d25ce486cf09db49bda535d2a9e"
         type: 1
         handler:
           contract: "EthereumGateway"
@@ -77,7 +77,7 @@ listeners:
         callbacks:
           Ronin: "DepositRequestedCallback"
       WithdrewSubscription:
-        to: "0x9e359F42cDDc84A386a2Ef1D9Ae06623f3970D1D"
+        to: "0x06855f31df1d3d25ce486cf09db49bda535d2a9e"
         type: 1
         handler:
           contract: "EthereumGateway"
