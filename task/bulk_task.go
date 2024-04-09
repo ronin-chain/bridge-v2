@@ -2,6 +2,7 @@ package task
 
 import (
 	"crypto/ecdsa"
+	"encoding/json"
 	"fmt"
 	"math/big"
 	"time"
@@ -312,6 +313,7 @@ func (r *bulkTask) sendWithdrawalSignaturesTransaction(tasks []*models.Task) (do
 			failedTasks = append(failedTasks, t)
 			continue
 		}
+		log.Debug("[bulkTask][sendWithdrawalSignaturesTransaction] withdrawal signatures", "receipt", receipt.Id.String(), "output", sigs.String())
 		processingTasks = append(processingTasks, t)
 		signatures = append(signatures, sigs)
 		ids = append(ids, receipt.Id)
@@ -582,6 +584,12 @@ func (r *bulkTask) signWithdrawalSignatures(receipt roninGateway.TransferReceipt
 				"quantity": receipt.Info.Quantity.String(),
 			},
 		},
+	}
+	jsonData, err := json.Marshal(typedData)
+	if err != nil {
+		log.Error("error while marshal typed data", "err", err)
+	} else {
+		log.Debug("[bulkTask][signWithdrawalSignatures] raw typed data", "data", string(jsonData))
 	}
 	return r.util.SignTypedData(typedData, r.getSignMethod())
 }
