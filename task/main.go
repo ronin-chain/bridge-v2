@@ -8,6 +8,7 @@ const (
 	WITHDRAWAL_TASK             = "withdrawal"
 	VOTE_BRIDGE_OPERATORS_TASK  = "voteBridgeOperatorsBySignatures"
 	RELAY_BRIDGE_OPERATORS_TASK = "relayBridgeOperators"
+	BRIDGE_SYNC_REWARD_TASK     = "bridgeSyncReward"
 
 	STATUS_PENDING    = "pending"
 	STATUS_FAILED     = "failed"
@@ -20,6 +21,8 @@ const (
 	ETH_GOVERNANCE_CONTRACT       = "ethgovernance"
 	ETH_GATEWAY_CONTRACT          = "ethgateway"
 	BRIDGEADMIN_CONTRACT          = "bridgeadmin"
+	BRIDGE_REWARD_CONTRACT        = "bridgereward"
+	RONIN_VALIDATOR_SET_CONTRACT  = "roninvalidatorset"
 )
 
 const (
