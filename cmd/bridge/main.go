@@ -9,6 +9,7 @@ import (
 	"strings"
 	"syscall"
 
+	bridgeReward "github.com/axieinfinity/bridge-v2/generated_contracts/bridge_reward"
 	"github.com/axieinfinity/bridge-v2/internal"
 	"github.com/axieinfinity/bridge-v2/stats"
 	"github.com/spf13/viper"
@@ -125,6 +126,7 @@ func bridge(ctx *cli.Context) {
 	if err != nil {
 		panic(err)
 	}
+	bridgeCore.ABIMaps["BridgeReward"] = bridgeReward.BridgeRewardMetaData
 
 	// setup stats
 	setupStats(cfg, RoninNetwork, db)

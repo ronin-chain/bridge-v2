@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	bridgeReward "github.com/axieinfinity/bridge-v2/generated_contracts/bridge_reward"
 	"github.com/axieinfinity/bridge-v2/stats"
 
 	bridgeCore "github.com/axieinfinity/bridge-core"
@@ -92,6 +93,8 @@ func (r *task) send() {
 		r.sendTransaction(r.voteBridgeOperatorsBySignature)
 	case RELAY_BRIDGE_OPERATORS_TASK:
 		r.sendTransaction(r.relayBridgeOperators)
+	case BRIDGE_SYNC_REWARD_TASK:
+		r.sendTransaction(r.syncReward)
 	}
 }
 
@@ -113,6 +116,30 @@ func (r *task) sendTransaction(sendTx func(task *models.Task) (doneTasks, proces
 	go updateTasks(r.store, failedTasks, STATUS_FAILED, txHash, 0, r.releaseTasksCh)
 	_ = metrics.Pusher.IncrCounter(metrics.SuccessTaskMetric, len(doneTasks))
 	_ = metrics.Pusher.IncrCounter(metrics.FailedTaskMetric, len(failedTasks))
+}
+
+func (r *task) handleTaskError(task *models.Task, failedTasks *[]*models.Task, err error) {
+	task.LastError = err.Error()
+	stats.SendErrorToStats(r.listener, err)
+	*failedTasks = append(*failedTasks, task)
+}
+
+func (r *task) syncReward(task *models.Task) (doneTasks, processingTasks, failedTasks []*models.Task, tx *ethtypes.Transaction) {
+	bridgeRewardContract, err := bridgeReward.NewBridgeReward(common.HexToAddress(r.contracts[BRIDGE_REWARD_CONTRACT]), r.client)
+	if err != nil {
+		r.handleTaskError(task, &failedTasks, err)
+		return nil, nil, failedTasks, nil
+	}
+
+	tx, err = r.util.SendContractTransaction(r.listener.GetBridgeOperatorSign(), r.chainId, r.gasLimitBumpRatio, func(opts *bind.TransactOpts) (*ethtypes.Transaction, error) {
+		return bridgeRewardContract.SyncRewardManual(opts, common.Big0)
+	})
+	if err != nil {
+		r.handleTaskError(task, &failedTasks, err)
+		return nil, nil, failedTasks, nil
+	}
+	processingTasks = append(processingTasks, task)
+	return
 }
 
 func (r *task) voteBridgeOperatorsBySignature(task *models.Task) (doneTasks, processingTasks, failedTasks []*models.Task, tx *ethtypes.Transaction) {

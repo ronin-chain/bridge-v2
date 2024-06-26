@@ -29,13 +29,15 @@
         "EthGateway": "0x64192819Ac13Ef72bF6b5AE239AC672B43a9AF08",
         "EthGovernance": "0xB255D6A720BB7c39fee173cE22113397119cB930",
         "Governance": "0x946397deDFd2f79b75a72B322944a21C3240c9c3",
-        "TrustedOrganization": "0x98D0230884448B3E2f09a177433D60fb1E19C090"
+        "TrustedOrganization": "0x98D0230884448B3E2f09a177433D60fb1E19C090",
+        "BridgeReward": "0x796a163a21e9a659fc9773166e0afdc1eb01aad1"
       },
       "stats": {
         "node": "",
         "host": "",
         "secret": ""
       },
+      "enableSyncReward": false,
       "subscriptions": {
         "MainchainWithdrewSubscription": {
           "to": "0x0CF8fF40a508bdBc39fBe1Bb679dCBa64E65C7Df",
@@ -90,6 +92,17 @@
           },
           "callbacks": {
             "Ronin": "BridgeOperatorsApprovedCallback"
+          }
+        },
+        "ExternalCallFailedSubscription": {
+          "to": "0x3Fb325b251eE80945d3fc8c7692f5aFFCA1B8bC2",
+          "type": 1,
+          "handler": {
+            "contract": "BridgeTracking",
+            "name": "ExternalCallFailed"
+          },
+          "callbacks": {
+            "Ronin": "ExternalCallFailedCallback"
           }
         }
       }

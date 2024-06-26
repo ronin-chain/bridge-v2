@@ -26,13 +26,15 @@
       "processWithinBlocks": 864000,
       "contracts": {
         "Gateway": "0xCee681C9108c42C710c6A8A949307D5F13C9F3ca",
-        "EthGateway": "0x06855f31df1d3d25ce486cf09db49bda535d2a9e"
+        "EthGateway": "0x06855f31df1d3d25ce486cf09db49bda535d2a9e",
+        "BridgeReward": "0x6E19cF519b7B83F7CE719B6d30232485d9609D95"
       },
       "stats": {
         "node": "",
         "host": "",
         "secret": ""
       },
+      "enableSyncReward": false,
       "subscriptions": {
         "MainchainWithdrewSubscription": {
           "to": "0xCee681C9108c42C710c6A8A949307D5F13C9F3ca",
@@ -65,6 +67,17 @@
           },
           "callbacks": {
             "Ronin": "ProvideReceiptSignatureAgainCallback"
+          }
+        },
+        "ExternalCallFailedSubscription": {
+          "to": "0x880c5da7bFF9740464287EBFE381Be1cCCCE4FEA",
+          "type": 1,
+          "handler": {
+            "contract": "BridgeTracking",
+            "name": "ExternalCallFailed"
+          },
+          "callbacks": {
+            "Ronin": "ExternalCallFailedCallback"
           }
         }
       }
