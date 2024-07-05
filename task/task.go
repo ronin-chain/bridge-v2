@@ -135,8 +135,13 @@ func (r *task) syncReward(task *models.Task) (doneTasks, processingTasks, failed
 		return bridgeRewardContract.SyncRewardManual(opts, common.Big0)
 	})
 	if err != nil {
-		r.handleTaskError(task, &failedTasks, err)
-		return nil, nil, failedTasks, nil
+		tx, err = r.util.SendContractTransaction(r.listener.GetBridgeOperatorSign(), r.chainId, r.gasLimitBumpRatio, func(opts *bind.TransactOpts) (*ethtypes.Transaction, error) {
+			return bridgeRewardContract.SyncReward(opts, common.Big1)
+		})
+		if err != nil {
+			r.handleTaskError(task, &failedTasks, err)
+			return nil, nil, failedTasks, nil
+		}
 	}
 	processingTasks = append(processingTasks, task)
 	return
