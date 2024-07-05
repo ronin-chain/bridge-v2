@@ -311,13 +311,19 @@ func (l *RoninListener) ExternalCallFailedCallback(fromChainId *big.Int, tx brid
 	}
 
 	// We only process ExternalCallFailed event with to = bridge reward and
+	// msgSig = IBridgeReward.execSyncReward.selector or
 	// msgSig = IBridgeReward.execSyncReward.selector
-	// execSyncReward(address[],uint256[],uint256,uint256,uint256)
-	var execSyncRewardSelector = [4]byte(common.Hex2Bytes("6bcb6fd6"))
+	var (
+		// execSyncReward(address[],uint256[],uint256,uint256,uint256)
+		execSyncRewardSelector = [4]byte(common.Hex2Bytes("6bcb6fd6"))
+
+		// execSyncRewardAuto(uint256)
+		execSyncRewardAutoSelector = [4]byte(common.Hex2Bytes("b77f2a40"))
+	)
 	if failedEvent.To != common.HexToAddress(l.config.Contracts[task.BRIDGE_REWARD_CONTRACT]) {
 		return nil
 	}
-	if failedEvent.MsgSig != execSyncRewardSelector {
+	if failedEvent.MsgSig != execSyncRewardSelector && failedEvent.MsgSig != execSyncRewardAutoSelector {
 		return nil
 	}
 
