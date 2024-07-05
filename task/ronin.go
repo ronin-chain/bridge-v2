@@ -259,6 +259,10 @@ func (r *RoninTask) processPending() error {
 		if operatorTask := r.collectOperatorsTask(t); operatorTask != nil {
 			singleTasks = append(singleTasks, operatorTask)
 		}
+
+		if syncRewardTask := r.collectSyncRewardTask(t); syncRewardTask != nil {
+			singleTasks = append(singleTasks, syncRewardTask)
+		}
 	}
 	bulkDepositTask.send()
 	bulkSubmitWithdrawalSignaturesTask.send()
@@ -287,6 +291,27 @@ func (r *RoninTask) collectOperatorsTask(task *models.Task) Tasker {
 		)
 		operatorTask.collectTask(task)
 		return operatorTask
+	}
+	return nil
+}
+
+func (r *RoninTask) collectSyncRewardTask(task *models.Task) Tasker {
+	if task.Type == BRIDGE_SYNC_REWARD_TASK {
+		syncRewardTask := newTask(
+			r.listener,
+			r.roninRpcClient,
+			nil,
+			r.store,
+			r.chainId,
+			r.contracts,
+			defaultMaxTry,
+			task.Type,
+			r.releaseTasksCh,
+			r.util,
+			r.gasLimitBumpRatio,
+		)
+		syncRewardTask.collectTask(task)
+		return syncRewardTask
 	}
 	return nil
 }

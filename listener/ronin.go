@@ -11,6 +11,7 @@ import (
 	ethGovernance "github.com/axieinfinity/bridge-core/generated_contracts/ethereum/governance"
 	"github.com/ethereum/go-ethereum/crypto"
 
+	bridgeTracking "github.com/axieinfinity/bridge-core/generated_contracts/ronin/bridge_tracking"
 	roninTrustedOrganization "github.com/axieinfinity/bridge-core/generated_contracts/ronin/trusted_organization"
 
 	bridgeCore "github.com/axieinfinity/bridge-core"
@@ -292,6 +293,51 @@ func (l *RoninListener) WithdrewCallback(fromChainId *big.Int, tx bridgeCore.Tra
 		CreatedAt:       time.Now().Unix(),
 	}
 	return l.bridgeStore.GetTaskStore().Save(ackWithdrewTask)
+}
+
+func (l *RoninListener) ExternalCallFailedCallback(fromChainId *big.Int, tx bridgeCore.Transaction, data []byte) error {
+	if !l.config.EnableSyncReward {
+		return nil
+	}
+
+	failedEvent := new(bridgeTracking.BridgeTrackingExternalCallFailed)
+	bridgeTrackingAbi, err := bridgeTracking.BridgeTrackingMetaData.GetAbi()
+	if err != nil {
+		return err
+	}
+
+	if err = l.utilsWrapper.UnpackLog(*bridgeTrackingAbi, failedEvent, "ExternalCallFailed", data); err != nil {
+		return err
+	}
+
+	// We only process ExternalCallFailed event with to = bridge reward and
+	// msgSig = IBridgeReward.execSyncReward.selector
+	// execSyncReward(address[],uint256[],uint256,uint256,uint256)
+	var execSyncRewardSelector = [4]byte(common.Hex2Bytes("6bcb6fd6"))
+	if failedEvent.To != common.HexToAddress(l.config.Contracts[task.BRIDGE_REWARD_CONTRACT]) {
+		return nil
+	}
+	if failedEvent.MsgSig != execSyncRewardSelector {
+		return nil
+	}
+
+	chainId, err := l.GetChainID()
+	if err != nil {
+		return err
+	}
+	syncRewardTask := &models.Task{
+		ChainId:         hexutil.EncodeBig(chainId),
+		FromChainId:     hexutil.EncodeBig(fromChainId),
+		FromTransaction: tx.GetHash().Hex(),
+		Type:            task.BRIDGE_SYNC_REWARD_TASK,
+		Data:            common.Bytes2Hex(data),
+		Retries:         0,
+		Status:          task.STATUS_PENDING,
+		LastError:       "",
+		CreatedAt:       time.Now().Unix(),
+	}
+
+	return l.bridgeStore.GetTaskStore().Save(syncRewardTask)
 }
 
 type RoninCallBackJob struct {
