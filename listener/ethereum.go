@@ -203,21 +203,29 @@ func (e *EthereumListener) GetCurrentBlock() bridgeCore.Block {
 		block, err = e.GetProcessedBlock()
 		if err != nil {
 			log.Error(fmt.Sprintf("[%sListener] error on getting processed block from database", e.GetName()), "err", err)
-			if e.fromHeight > 0 {
-				block, err = e.GetBlock(e.fromHeight)
-				if err != nil {
-					log.Error(fmt.Sprintf("[%sListener] error on getting block from rpc", e.GetName()), "err", err, "fromHeight", e.fromHeight)
+
+			for {
+				if e.fromHeight > 0 {
+					block, err = e.GetBlock(e.fromHeight)
+					if err != nil {
+						log.Error(fmt.Sprintf("[%sListener] error on getting block from rpc", e.GetName()), "err", err, "fromHeight", e.fromHeight)
+						time.Sleep(30 * time.Second)
+					} else {
+						break
+					}
+				} else {
+					block, err = e.GetLatestBlock()
+					if err != nil {
+						log.Error(fmt.Sprintf("[%sListener] error on getting latest block from rpc", e.GetName()), "err", err)
+						time.Sleep(30 * time.Second)
+					} else {
+						break
+					}
+
 				}
 			}
 		}
-		// if block is still nil, get latest block from rpc
-		if block == nil {
-			block, err = e.GetLatestBlock()
-			if err != nil {
-				log.Error(fmt.Sprintf("[%sListener] error on getting latest block from rpc", e.GetName()), "err", err)
-				return nil
-			}
-		}
+
 		e.currentBlock.Store(block)
 		return block
 	}
