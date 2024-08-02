@@ -1,7 +1,7 @@
 module github.com/axieinfinity/bridge-v2
 
 replace (
-	github.com/axieinfinity/bridge-core => github.com/ronin-chain/bridge-core v0.1.3-0.20240625082548-579437b59387
+	github.com/axieinfinity/bridge-core => github.com/ronin-chain/bridge-core v0.1.3-0.20240802083006-6bc6ef92476e
 	github.com/ethereum/go-ethereum => github.com/axieinfinity/ronin v1.10.4-0.20240117085004-bf2f0d1787d0
 )
 
