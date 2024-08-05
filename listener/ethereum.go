@@ -282,7 +282,6 @@ func (e *EthereumListener) UpdateCurrentBlock(block bridgeCore.Block) error {
 	if block != nil && e.GetCurrentBlock().GetHeight() < block.GetHeight() {
 		log.Info(fmt.Sprintf("[%sListener] UpdateCurrentBlock", e.name), "block", block.GetHeight())
 		e.currentBlock.Store(block)
-		return e.SaveCurrentBlockToDB()
 	}
 	return nil
 }
